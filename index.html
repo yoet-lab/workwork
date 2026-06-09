@@ -166,6 +166,31 @@
         });
     }
 
+    function updateSearchTagOptions() {
+        const SearchTag = document.getElementById('search-tag');
+        
+        SearchTag.innerHTML = '<option value="">すべて表示</option>';
+
+        let allTag = [];
+        workouts.forEach(w => {
+            if(w.tags && Array.isArray(w.tags)){
+                allTag = allTag.concat(w.tags);
+            }
+
+            const OOTag = [...new Set(allTag)];
+            /*OO = Only One*/
+            
+            OOTag.forEach(w => {
+            if(tag){
+                const option = document.createElement('option');
+                option.value = tag;
+                option.textContent = tag;
+                searchSelect.appendChild(option);
+            }
+        });
+            
+    }
+
     function saveLog() {
         const date = document.getElementById('record-date').value;
         const workoutId = document.getElementById('record-workout-select').value;
