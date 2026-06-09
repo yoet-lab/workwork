@@ -40,10 +40,8 @@
         <button onclick="addWorkout()">種目を登録</button>
 
         <h3>種目一覧（タグ検索）</h3>
-        <input type="text" id="search-tag" placeholder="ハッシュタグで検索（例：#胸）" oninput="searchWorkouts()">
-        <ul id="workout-list">
-            <li>サンプル種目<span class="tag">#胸</span> (前回: まだ記録がありません)</li>
-        </ul>
+        <input type="text" id="search-tag" placeholder="部位タグ検索（例：#胸筋）" oninput="searchWorkouts()">
+        <ul id="workout-list"></ul>
     </div>
 
     <div class="section">
@@ -91,7 +89,7 @@
         const tagsRaw = tagsInput.value.trim();
         
         if (!name) {
-            alert('種目名を入力してください！');
+            alert('種目名が未入力です');
             return;
         }
         const tags = tagsRaw ? tagsRaw.split(/\s+/).filter(t => t.startsWith('#')) : [];
@@ -117,7 +115,7 @@
             if(!filterTag && count >= 3)return;
 
             const itemLogs = logs.filter(l => l.workoutId == w.id).sort((a, b) => new Date(b.date) - new Date(a.date));
-            let lastRecordText = 'まだ記録がありません';
+            let lastRecordText = '記録なし';
             
             if (itemLogs.length > 0) {
                 const last = itemLogs[0];
@@ -147,7 +145,7 @@
 
     function updateSelectOptions() {
         const select = document.getElementById('record-workout-select');
-        select.innerHTML = '<option value="">-- 種目を選択してください --</option>';
+        select.innerHTML = '<option value="">種目を選択してください</option>';
         
         workouts.forEach(w => {
             const option = document.createElement('option');
@@ -208,7 +206,7 @@
             const workoutName = workout ? workout.name : '削除された種目';
 
             const li = document.createElement('li');
-            li.innerHTML = `🔥 <strong>${workoutName}</strong> : ${l.weight} kg × ${l.rep} rep / ${l.set} set`;
+            li.innerHTML = ` <strong>${workoutName}</strong> : ${l.weight} kg × ${l.rep} rep / ${l.set} set`;
             ul.appendChild(li);
         });
         resultsDiv.appendChild(ul);
