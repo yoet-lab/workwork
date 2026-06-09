@@ -40,7 +40,9 @@
         <button onclick="addWorkout()">種目を登録</button>
 
         <h3>種目一覧（タグ検索）</h3>
-        <input type="text" id="search-tag" placeholder="部位タグ検索（例：#胸筋）" oninput="searchWorkouts()">
+        <select id="search-tag" onchange="searchWorkouts()">
+            <option value="">すべて表示</option>
+        </select>
         <ul id="workout-list"></ul>
     </div>
 
