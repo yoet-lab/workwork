@@ -3,22 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>筋トレ記録・管理アプリ</title>
+    <title>筋力トレーニング記録・管理Web</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background: #f0f2f5; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h1, h2 { border-bottom: 2px solid #007bff; padding-bottom: 5px; }
-        .section { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        input, select, button { padding: 8px; margin: 5px 0; display: inline-block; }
-        button { background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background: #0056b3; }
-        .tag { background: #e1ecf4; color: #39739d; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; margin-right: 5px; }
+        body{
+            background:#f0f2f5;
+            color:#333333;
+        }
+        .container{
+            max-width:800px;
+            margin:0 auto;
+            background:white;
+            padding:20px;
+        }
+        .section{
+            margin-bottom:30px;
+            padding:15px;
+            border:1px solid gray;
+        }
+        button{
+            background:blue;
+            color:white;
+            padding:10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>　筋力トレーニング記録・管理web　</h1>
+    <h1>　筋力トレーニング記録・管理Web　</h1>
 
     <div class="section">
         <h2>1. 種目の登録</h2>
@@ -44,8 +56,8 @@
         </select><br>
 
         <input type="number" id="record-weight" placeholder="重量 (kg)" min="0">
-        <input type="number" id="record-rep" placeholder="レップ数 (rep)" min="0">
-        <input type="number" id="record-set" placeholder="セット数 (set)" min="0">
+        <input type="number" id="record-rep" placeholder="レップ数" min="0">
+        <input type="number" id="record-set" placeholder="セット数" min="0">
         <button onclick="saveLog()">記録を保存</button>
     </div>
 
