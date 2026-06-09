@@ -97,6 +97,8 @@
         workouts.push(newWorkout);
         localStorage.setItem('workouts', JSON.stringify(workouts));
         
+        alert('種目を登録しました');
+        
         nameInput.value = '';
         tagsInput.value = '';
         
@@ -112,7 +114,13 @@
 
         workouts.forEach(w => {
             if(filterTag && !w.tags.includes(filterTag)) return;
-            if(!filterTag && count >= 3)return;
+            if(!filterTag && count >= 3){
+                if(count == 3){
+                    list.insertAdjacentHTML('beforeend', '<li><em>...etc.</em></li>');
+                }
+                count++;
+                return;
+            }
 
             const itemLogs = logs.filter(l => l.workoutId == w.id).sort((a, b) => new Date(b.date) - new Date(a.date));
             let lastRecordText = '記録なし';
