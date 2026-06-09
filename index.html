@@ -2,10 +2,70 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>最終課題のテストページ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筋トレ記録・管理アプリ</title>
+    <style>
+        /* 簡単なデザイン（CSS） */
+        body { font-family: sans-serif; margin: 20px; background: #f0f2f5; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2 { border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+        .section { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        input, select, button { padding: 8px; margin: 5px 0; display: inline-block; }
+        button { background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .tag { background: #e1ecf4; color: #39739d; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; margin-right: 5px; }
+    </style>
 </head>
 <body>
-    <h1>テスト表示成功！</h1>
-    <p>これからここに自分の作品を作っていきます。</p>
+
+<div class="container">
+    <h1>🏋️‍♂️ 筋トレ記録・管理マネージャー</h1>
+
+    <div class="section">
+        <h2>1. 種目のマスター登録</h2>
+        <input type="text" id="workout-name" placeholder="種目名（例：ベンチプレス）">
+        <input type="text" id="workout-tags" placeholder="部位タグ（例：#胸 #三頭筋）">
+        <button onclick="addWorkout()">種目を登録</button>
+
+        <h3>🔍 種目一覧（タグ検索）</h3>
+        <input type="text" id="search-tag" placeholder="ハッシュタグで検索（例：#胸）" oninput="searchWorkouts()">
+        <ul id="workout-list">
+            <li>サンプル種目 <span class="tag">#胸</span> (前回: まだ記録がありません)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. 本日のトレーニング記録</h2>
+        <label>日付を選択：</label>
+        <input type="date" id="record-date"><br>
+
+        <label>種目を選択：</label>
+        <select id="record-workout-select">
+            <option value="">-- 種目を選択してください --</option>
+        </select><br>
+
+        <input type="number" id="record-weight" placeholder="重量 (kg)" min="0">
+        <input type="number" id="record-rep" placeholder="レップ数 (rep)" min="0">
+        <input type="number" id="record-set" placeholder="セット数 (set)" min="0">
+        <button onclick="saveLog()">記録を保存</button>
+    </div>
+
+    <div class="section">
+        <h2>3. 日付ごとの履歴確認</h2>
+        <input type="date" id="view-date" onchange="viewLogByDate()">
+        <div id="log-results">
+            <p>日付を選択すると、その日のメニューが表示されます。</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ここにデータを動かすためのJavaScriptをこれから書いていきます！
+    function addWorkout() { alert('種目登録ボタンが押されました（未実装）'); }
+    function searchWorkouts() { }
+    function saveLog() { alert('記録保存ボタンが押されました（未実装）'); }
+    function viewLogByDate() { }
+</script>
+
 </body>
 </html>
