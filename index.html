@@ -179,7 +179,8 @@
         logs.push(newLog);
         localStorage.setItem('logs', JSON.stringify(logs));
 
-        alert('ナイスバルク！記録しました！');
+        /*なくてもいいが、あったら記録したことが確実に分かる*/
+        alert('記録しました');
         
         document.getElementById('record-weight').value = '';
         document.getElementById('record-rep').value = '';
@@ -196,7 +197,7 @@
         const dayLogs = logs.filter(l => l.date === targetDate);
 
         if (dayLogs.length === 0) {
-            resultsDiv.innerHTML = '<p style="color:#888;">この日の記録はありません。オフの日か、記録を付け忘れていませんか？</p>';
+            resultsDiv.innerHTML = '<p style="color:#888;">記録なし</p>';
             return;
         }
 
