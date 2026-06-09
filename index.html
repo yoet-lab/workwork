@@ -167,9 +167,12 @@
     }
 
     function updateSearchTagOptions() {
-        const SearchTag = document.getElementById('search-tag');
+        const searchSelect = document.getElementById('search-tag');
+        if(!searchSelect)return;
+
+        const currentSelected = searchSelect.value
         
-        SearchTag.innerHTML = '<option value="">すべて表示</option>';
+        searchSelect.innerHTML = '<option value="">すべて表示</option>';
 
         let allTag = [];
         workouts.forEach(w => {
@@ -180,7 +183,7 @@
             const OOTag = [...new Set(allTag)];
             /*OO = Only One*/
             
-            OOTag.forEach(w => {
+            OOTag.forEach(tag => {
             if(tag){
                 const option = document.createElement('option');
                 option.value = tag;
@@ -188,7 +191,9 @@
                 searchSelect.appendChild(option);
             }
         });
-            
+        if(OOTag.includes(currentSelected)){
+            searchSelect.value =currentSelected;
+        }    
     }
 
     function saveLog() {
