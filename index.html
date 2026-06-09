@@ -81,6 +81,7 @@
         
         updateWorkoutList();
         updateSelectOptions();
+        updateSearchTagOptions();
         viewLogByDate();
     };
     function addWorkout() {
@@ -144,8 +145,8 @@
     }
 
     function searchWorkouts() {
-        const query = document.getElementById('search-tag').value.trim();
-        updateWorkoutList(query);
+        const tag = document.getElementById('search-tag').value;
+        updateWorkoutList(tag);
     }
 
     function setSearchTag(tag) {
