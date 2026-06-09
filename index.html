@@ -6,6 +6,7 @@
     <title>筋力トレーニング記録・管理Web</title>
     <style>
         body{
+            /*真っ白、真っ黒だと目が疲れやすいため、少し暗い白色と、少し明るい黒色にした*/
             background:#f0f2f5;
             color:#333333;
         }
@@ -33,28 +34,28 @@
     <h1>　筋力トレーニング記録・管理Web　</h1>
 
     <div class="section">
-        <h2>1. 種目の登録</h2>
+        <h2>1. 種目の記録</h2>
         <input type="text" id="workout-name" placeholder="種目名（例：ベンチプレス）">
-        <input type="text" id="workout-tags" placeholder="部位タグ（例：#胸筋 #上腕三頭筋）">
+        <input type="text" id="workout-tags" placeholder="部位タグ（例：#胸筋）">
         <button onclick="addWorkout()">種目を登録</button>
 
-        <h3>🔍 種目一覧（タグ検索）</h3>
+        <h3>種目一覧（タグ検索）</h3>
         <input type="text" id="search-tag" placeholder="ハッシュタグで検索（例：#胸）" oninput="searchWorkouts()">
         <ul id="workout-list">
-            <li>サンプル種目 <span class="tag">#胸</span> (前回: まだ記録がありません)</li>
+            <li>サンプル種目<span class="tag">#胸</span> (前回: まだ記録がありません)</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>2. 本日のトレーニング記録</h2>
+        <h2>2. トレーニングメニューの記録</h2>
         <label>日付を選択：</label>
         <input type="date" id="record-date"><br>
 
         <label>種目を選択：</label>
         <select id="record-workout-select">
-            <option value="">-- 種目を選択してください --</option>
+            <option value="">種目を選択してください</option>
         </select><br>
-
+        
         <input type="number" id="record-weight" placeholder="重量 (kg)" min="0">
         <input type="number" id="record-rep" placeholder="レップ数" min="0">
         <input type="number" id="record-set" placeholder="セット数" min="0">
@@ -71,13 +72,9 @@
 </div>
 
 <script>
-    // ブラウザの保存領域（LocalStorage）からデータを読み込む
     let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
     let logs = JSON.parse(localStorage.getItem('logs')) || [];
-
-    // 最初に画面を開いたときにデータを表示する
     window.onload = function() {
-        // 今日を初期日付にする
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('record-date').value = today;
         document.getElementById('view-date').value = today;
@@ -86,8 +83,6 @@
         updateSelectOptions();
         viewLogByDate();
     };
-
-    // 1. 種目のマスター登録
     function addWorkout() {
         const nameInput = document.getElementById('workout-name');
         const tagsInput = document.getElementById('workout-tags');
@@ -99,15 +94,9 @@
             alert('種目名を入力してください！');
             return;
         }
-
-        // ハッシュタグを配列に分解する（例: "#胸 #肩" -> ["#胸", "#肩"])
         const tags = tagsRaw ? tagsRaw.split(/\s+/).filter(t => t.startsWith('#')) : [];
-
-        // 新しい種目データ
         const newWorkout = { id: Date.now(), name: name, tags: tags };
         workouts.push(newWorkout);
-        
-        // 保存して画面を更新
         localStorage.setItem('workouts', JSON.stringify(workouts));
         
         nameInput.value = '';
@@ -117,16 +106,16 @@
         updateSelectOptions();
     }
 
-    // 種目一覧の表示更新（ここがポイント：前回記録も探して表示する）
     function updateWorkoutList(filterTag = '') {
         const list = document.getElementById('workout-list');
         list.innerHTML = '';
 
-        workouts.forEach(w => {
-            // タグ検索の絞り込み
-            if (filterTag && !w.tags.includes(filterTag)) return;
+        let count = 0;
 
-            // この種目の「最後の記録」をログから探す
+        workouts.forEach(w => {
+            if(filterTag && !w.tags.includes(filterTag)) return;
+            if(!filterTag && count >= 3)return;
+
             const itemLogs = logs.filter(l => l.workoutId == w.id).sort((a, b) => new Date(b.date) - new Date(a.date));
             let lastRecordText = 'まだ記録がありません';
             
@@ -135,29 +124,27 @@
                 lastRecordText = `${last.date}：${last.weight}kg / ${last.rep}rep / ${last.set}set`;
             }
 
-            // タグの見た目を作る
             const tagSpans = w.tags.map(t => `<span class="tag" style="cursor:pointer;" onclick="setSearchTag('${t}')">${t}</span>`).join('');
 
             const li = document.createElement('li');
             li.style.marginBottom = '8px';
             li.innerHTML = `<strong>${w.name}</strong> ${tagSpans} <br><small style="color:#666;">(前回: ${lastRecordText})</small>`;
             list.appendChild(li);
+
+            count++;
         });
     }
 
-    // タグ検索機能
     function searchWorkouts() {
         const query = document.getElementById('search-tag').value.trim();
         updateWorkoutList(query);
     }
 
-    // タグをクリックしたときに検索窓に入力する便利機能
     function setSearchTag(tag) {
         document.getElementById('search-tag').value = tag;
         updateWorkoutList(tag);
     }
 
-    // 2. 記録入力用のセレクトボックス（ドロップダウン）を更新
     function updateSelectOptions() {
         const select = document.getElementById('record-workout-select');
         select.innerHTML = '<option value="">-- 種目を選択してください --</option>';
@@ -170,7 +157,6 @@
         });
     }
 
-    // 3. トレーニング記録の保存
     function saveLog() {
         const date = document.getElementById('record-date').value;
         const workoutId = document.getElementById('record-workout-select').value;
@@ -196,26 +182,19 @@
         localStorage.setItem('logs', JSON.stringify(logs));
 
         alert('ナイスバルク！記録しました！');
-
-        // 入力欄をクリア（日付と種目以外）
+        
         document.getElementById('record-weight').value = '';
         document.getElementById('record-rep').value = '';
         document.getElementById('record-set').value = '';
-
-        // 画面を全部最新の状態に更新
         updateWorkoutList();
         viewLogByDate();
     }
-
-    // 4. 日付ごとの履歴表示
     function viewLogByDate() {
         const targetDate = document.getElementById('view-date').value;
         const resultsDiv = document.getElementById('log-results');
         resultsDiv.innerHTML = '';
 
         if (!targetDate) return;
-
-        // 選択された日付のログを抽出
         const dayLogs = logs.filter(l => l.date === targetDate);
 
         if (dayLogs.length === 0) {
@@ -225,7 +204,6 @@
 
         const ul = document.createElement('ul');
         dayLogs.forEach(l => {
-            // 種目IDから種目名を探す
             const workout = workouts.find(w => w.id == l.workoutId);
             const workoutName = workout ? workout.name : '削除された種目';
 
